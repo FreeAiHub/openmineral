@@ -1,8 +1,8 @@
-# 🚀 OpenMineral - AI-First Commodity Trading Platform
+# 🚀 OpenMineralHub - AI-First Commodity Trading Platform
 
 **Production-Ready AI Trading Infrastructure for Commodity Markets - Built by Senior Trading Systems Engineers**
 
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/openmineral/platform/releases)
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/FreeAiHub/openmineralhub/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11+-brightgreen.svg)](https://python.org)
 [![React](https://img.shields.io/badge/React-18.2+-blue.svg)](https://reactjs.org)
@@ -14,7 +14,7 @@
 
 ## 📋 Executive Summary
 
-**OpenMineral** - это enterprise-grade AI платформа для автоматизации commodity trading lifecycle, разработанная командой с 5+ летним опытом building production trading systems. Платформа обеспечивает полную автоматизацию от pre-deal анализа до post-trade settlement с использованием современных AI/ML подходов.
+**OpenMineralHub** - это enterprise-grade AI платформа для автоматизации commodity trading lifecycle, разработанная командой с 5+ летним опытом building production trading systems. Платформа обеспечивает полную автоматизацию от pre-deal анализа до post-trade settlement с использованием современных AI/ML подходов.
 
 ### 🎯 Core Business Value Proposition
 - 🤖 **AI-Powered Decision Making** - Multi-modal AI анализ с GPT-4 Turbo, Claude 3.5 Sonnet
@@ -198,7 +198,7 @@ Vault                # Secrets management
 ## 🏆 Competitive Advantages
 
 ### **Market Position**
-OpenMineral занимает уникальную позицию на рынке AI-powered commodity trading платформ:
+OpenMineralHub занимает уникальную позицию на рынке AI-powered commodity trading платформ:
 
 - **AI-First Approach**: В отличие от традиционных CTRM систем, мы строим платформу вокруг возможностей ИИ
 - **Modern Architecture**: React 18+, FastAPI, Kubernetes vs legacy Java/.NET монолиты
@@ -219,12 +219,12 @@ OpenMineral занимает уникальную позицию на рынке
 #### **Our Differentiators**
 ```python
 COMPETITIVE_MATRIX = {
-    'ai_integration': {'openmineral': 10, 'competitors_avg': 2.5},
-    'modern_architecture': {'openmineral': 9, 'competitors_avg': 4},
-    'user_experience': {'openmineral': 9, 'competitors_avg': 5},
-    'real_time_processing': {'openmineral': 9, 'competitors_avg': 6},
-    'alternative_data': {'openmineral': 10, 'competitors_avg': 1},
-    'scalability': {'openmineral': 9, 'competitors_avg': 7}
+    'ai_integration': {'openmineralhub': 10, 'competitors_avg': 2.5},
+    'modern_architecture': {'openmineralhub': 9, 'competitors_avg': 4},
+    'user_experience': {'openmineralhub': 9, 'competitors_avg': 5},
+    'real_time_processing': {'openmineralhub': 9, 'competitors_avg': 6},
+    'alternative_data': {'openmineralhub': 10, 'competitors_avg': 1},
+    'scalability': {'openmineralhub': 9, 'competitors_avg': 7}
 }
 ```
 
