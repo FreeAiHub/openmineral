@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openmineral-frontend
+  labels:
+    app: openmineral-frontend
+spec:
+  selector:
+    app: openmineral-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: ClusterIP

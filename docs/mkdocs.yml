@@ -1,0 +1,196 @@
+site_name: OpenMineral Documentation
+site_description: AI-Driven Commodity Trading Platform Documentation
+site_author: OpenMineral Team
+site_url: https://docs.openmineral.com
+
+repo_name: openmineral/platform
+repo_url: https://github.com/openmineral/platform
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2025 OpenMineral Platform
+
+theme:
+  name: material
+  custom_dir: overrides
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-committers:
+      repository: openmineral/platform
+      branch: main
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: openmineral
+      repo: platform
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: getting-started/quick-start.md
+    - Installation: getting-started/installation.md
+    - Configuration: getting-started/configuration.md
+    - First Steps: getting-started/first-steps.md
+  - User Guide:
+    - Trading Operations: user-guide/trading.md
+    - Risk Management: user-guide/risk-management.md
+    - Compliance & KYC: user-guide/compliance.md
+    - Market Analysis: user-guide/market-analysis.md
+    - Workflow Automation: user-guide/workflows.md
+  - AI Integration:
+    - Overview: ai/overview.md
+    - LangChain Setup: ai/langchain-setup.md
+    - LangGraph Workflows: ai/langgraph-workflows.md
+    - Model Integration: ai/model-integration.md
+    - Custom Agents: ai/custom-agents.md
+    - Performance Tuning: ai/performance.md
+  - API Reference:
+    - Authentication: api/authentication.md
+    - Deals: api/deals.md
+    - Market Data: api/market-data.md
+    - Risk Assessment: api/risk.md
+    - Compliance: api/compliance.md
+    - Workflows: api/workflows.md
+  - Development:
+    - Architecture: development/architecture.md
+    - Backend Development: development/backend.md
+    - Frontend Development: development/frontend.md
+    - Database Design: development/database.md
+    - Testing: development/testing.md
+    - Deployment: development/deployment.md
+  - Infrastructure:
+    - Cloud Setup: infrastructure/cloud-setup.md
+    - Kubernetes: infrastructure/kubernetes.md
+    - Terraform: infrastructure/terraform.md
+    - Monitoring: infrastructure/monitoring.md
+    - Security: infrastructure/security.md
+  - Community:
+    - Contributing: community/contributing.md
+    - Code of Conduct: community/code-of-conduct.md
+    - Support: community/support.md
+    - Roadmap: community/roadmap.md
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/openmineral/platform
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/openmineral
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/openmineral
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/company/openmineral
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css

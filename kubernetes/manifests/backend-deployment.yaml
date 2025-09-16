@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmineral-backend
+  labels:
+    app: openmineral-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: openmineral-backend
+  template:
+    metadata:
+      labels:
+        app: openmineral-backend
+    spec:
+      containers:
+      - name: backend
+        image: openmineral/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRESQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: postgresql-url
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mongodb-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: redis-url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5

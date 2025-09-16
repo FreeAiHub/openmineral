@@ -1,0 +1,171 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v0.1.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Extract changelog for this version
+          VERSION=${{ github.event.inputs.version || github.ref_name }}
+          echo "Generating changelog for $VERSION"
+          
+          # Extract relevant section from CHANGELOG.md
+          awk -v version="[$VERSION]" '
+            $0 ~ version {flag=1; next} 
+            /^## \[/ && flag {exit} 
+            flag {print}
+          ' CHANGELOG.md > release_notes.md
+          
+          echo "changelog_content<<EOF" >> $GITHUB_OUTPUT
+          cat release_notes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          release_name: OpenMineral ${{ github.event.inputs.version || github.ref_name }}
+          body: |
+            ## 🚀 OpenMineral ${{ github.event.inputs.version || github.ref_name }}
+            
+            ### What's New
+            ${{ steps.changelog.outputs.changelog_content }}
+            
+            ### Installation
+            ```bash
+            # Docker Compose (Recommended)
+            curl -sSL https://raw.githubusercontent.com/openmineral/platform/${{ github.event.inputs.version || github.ref_name }}/docker-compose.yml -o docker-compose.yml
+            docker compose up
+            
+            # Manual Installation
+            git clone --branch ${{ github.event.inputs.version || github.ref_name }} https://github.com/openmineral/platform.git
+            cd platform
+            # Follow setup instructions in README.md
+            ```
+            
+            ### Upgrade Notes
+            - Review [CHANGELOG.md](CHANGELOG.md) for breaking changes
+            - Check [migration guide](docs/migrations.md) for database updates
+            - Update environment variables as documented
+            
+            ### Support
+            - 📖 [Documentation](https://docs.openmineral.com)
+            - 💬 [Discord Community](https://discord.gg/openmineral)
+            - 🐛 [Report Issues](https://github.com/openmineral/platform/issues)
+          draft: false
+          prerelease: ${{ contains(github.event.inputs.version || github.ref_name, 'alpha') || contains(github.event.inputs.version || github.ref_name, 'beta') || contains(github.event.inputs.version || github.ref_name, 'rc') }}
+
+  build-and-publish:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=${{ github.event.inputs.version || github.ref_name }}
+          echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            openmineral/backend:latest
+            openmineral/backend:${{ steps.version.outputs.version }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push frontend image  
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            openmineral/frontend:latest
+            openmineral/frontend:${{ steps.version.outputs.version }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  update-helm-chart:
+    runs-on: ubuntu-latest
+    needs: build-and-publish
+    steps:
+      - name: Update Helm Chart
+        run: |
+          VERSION=${{ github.event.inputs.version || github.ref_name }}
+          echo "Updating Helm chart to version ${VERSION#v}"
+          # In a real implementation, this would update the Helm chart repository
+
+  notify-community:
+    runs-on: ubuntu-latest
+    needs: [create-release, build-and-publish]
+    steps:
+      - name: Notify Discord Community
+        run: |
+          curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "🚀 New OpenMineral Release!",
+                "description": "Version ${{ github.event.inputs.version || github.ref_name }} is now available",
+                "color": 5814783,
+                "fields": [
+                  {
+                    "name": "📦 Download",
+                    "value": "[GitHub Release](https://github.com/openmineral/platform/releases/latest)",
+                    "inline": true
+                  },
+                  {
+                    "name": "📚 Documentation", 
+                    "value": "[docs.openmineral.com](https://docs.openmineral.com)",
+                    "inline": true
+                  },
+                  {
+                    "name": "🐛 Issues",
+                    "value": "[Report Bugs](https://github.com/openmineral/platform/issues)",
+                    "inline": true
+                  }
+                ],
+                "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%S.000Z)'"
+              }]
+            }'
+
+      - name: Update social media
+        run: |
+          echo "New release ${{ github.event.inputs.version || github.ref_name }} published!"
+          # In a real implementation, this would post to Twitter/LinkedIn APIs

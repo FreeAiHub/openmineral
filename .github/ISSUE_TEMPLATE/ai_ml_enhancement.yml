@@ -1,0 +1,106 @@
+name: 🤖 AI/ML Enhancement
+description: Suggest improvements to AI/ML capabilities
+title: "[AI/ML]: "
+labels: ["ai-ml", "enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an AI/ML enhancement! Please provide detailed information about your proposal.
+
+  - type: dropdown
+    id: ai_component
+    attributes:
+      label: AI/ML Component
+      description: Which AI/ML component does this enhancement target?
+      options:
+        - LangChain Workflows
+        - LangGraph Orchestration
+        - Vector Database/RAG
+        - Price Prediction Models
+        - Sentiment Analysis
+        - Risk Assessment AI
+        - Compliance Automation
+        - Trading Strategy AI
+        - Alternative Data Processing
+        - Model Training Pipeline
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: model_type
+    attributes:
+      label: Preferred AI Model
+      description: Which AI model would be best for this enhancement?
+      options:
+        - Claude 3.5 Sonnet
+        - GPT-4 Turbo
+        - GPT-4 Vision
+        - Llama 3.1 405B
+        - Gemini Pro
+        - Custom Fine-tuned Model
+        - Ensemble Approach
+        - Not Sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_behavior
+    attributes:
+      label: Current AI Behavior
+      description: Describe how the AI currently behaves in this area
+      placeholder: "Currently, the AI model..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_enhancement
+    attributes:
+      label: Proposed Enhancement
+      description: Describe the AI enhancement you'd like to see
+      placeholder: "The AI should be able to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: training_data
+    attributes:
+      label: Training Data Requirements
+      description: What training data would be needed for this enhancement?
+      placeholder: "This enhancement would require training data such as..."
+
+  - type: textarea
+    id: performance_metrics
+    attributes:
+      label: Success Metrics
+      description: How would you measure the success of this AI enhancement?
+      placeholder: "Success would be measured by accuracy %, response time < X ms, user satisfaction..."
+
+  - type: dropdown
+    id: deployment_preference
+    attributes:
+      label: Deployment Preference
+      description: How should this AI feature be deployed?
+      options:
+        - Cloud API (OpenAI, Anthropic)
+        - Local Deployment
+        - Hybrid Approach
+        - Edge Computing
+        - No Preference
+
+  - type: textarea
+    id: business_impact
+    attributes:
+      label: Expected Business Impact
+      description: What business impact would this AI enhancement provide?
+      placeholder: "This enhancement would improve trading accuracy by X%, reduce processing time by Y minutes..."
+
+  - type: textarea
+    id: technical_considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical considerations, constraints, or requirements?
+      placeholder: "Consider latency requirements, data privacy, model size constraints..."

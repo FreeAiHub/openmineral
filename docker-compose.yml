@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:15
+    container_name: openmineral-postgres
+    environment:
+      POSTGRES_DB: openmineral
+      POSTGRES_USER: openmineral
+      POSTGRES_PASSWORD: openmineral123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - openmineral-network
+
+  # MongoDB database
+  mongodb:
+    image: mongo:6
+    container_name: openmineral-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: openmineral
+      MONGO_INITDB_ROOT_PASSWORD: openmineral123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - openmineral-network
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    container_name: openmineral-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - openmineral-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: openmineral-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRESQL_URL=postgresql://openmineral:openmineral123@postgres:5432/openmineral
+      - MONGODB_URL=mongodb://openmineral:openmineral123@mongodb:27017/openmineral
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - openmineral-network
+
+  # Frontend application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: openmineral-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - openmineral-network
+
+networks:
+  openmineral-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:

@@ -1,0 +1,47 @@
+{
+  "projectName": "OpenMineral",
+  "version": "0.1.0",
+  "aiProvider": "openai",
+  "model": "gpt-4",
+  "temperature": 0.7,
+  "maxTokens": 2000,
+  "customCommands": [
+    {
+      "name": "generate_api_endpoint",
+      "description": "Generate a new API endpoint with FastAPI",
+      "prompt": "Create a FastAPI endpoint for {endpoint_name} with proper error handling and documentation. Include request/response models if needed."
+    },
+    {
+      "name": "generate_react_component",
+      "description": "Generate a new React component with Ant Design",
+      "prompt": "Create a React component using Ant Design for {component_name}. Include proper state management and styling."
+    },
+    {
+      "name": "generate_database_model",
+      "description": "Generate a database model for SQLAlchemy",
+      "prompt": "Create a SQLAlchemy model for {model_name} with proper relationships and constraints. Include __tablename__, columns, and relationships."
+    },
+    {
+      "name": "generate_test_case",
+      "description": "Generate a test case for Pytest",
+      "prompt": "Create a Pytest test case for {function_name} that covers normal operation, edge cases, and error conditions."
+    }
+  ],
+  "codeTemplates": {
+    "python_fastapi_endpoint": "from fastapi import APIRouter\n\nrouter = APIRouter()\n\n@router.get(\"/\")\nasync def get_items():\n    return {\"message\": \"Hello World\"}\n",
+    "react_component": "import React from 'react';\n\nconst {component_name} = () => {\n  return (\n    <div>\n      <h1>{component_name}</h1>\n    </div>\n  );\n};\n\nexport default {component_name};",
+    "sqlalchemy_model": "from sqlalchemy import Column, Integer, String\nfrom database import Base\n\nclass {model_name}(Base):\n    __tablename__ = '{table_name}'\n    \n    id = Column(Integer, primary_key=True)\n    name = Column(String(50))\n"
+  },
+  "projectStructure": {
+    "backend": {
+      "path": "../backend",
+      "framework": "FastAPI",
+      "language": "Python"
+    },
+    "frontend": {
+      "path": "../frontend",
+      "framework": "React",
+      "language": "JavaScript"
+    }
+  }
+}
