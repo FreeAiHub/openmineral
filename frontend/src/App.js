@@ -94,7 +94,7 @@ function App() {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            OpenMineral Trading Platform ©2025
+            OpenMineralHub Trading Platform ©2025
           </Footer>
         </Layout>
       </Layout>
