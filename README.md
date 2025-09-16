@@ -644,22 +644,32 @@ class ModernStreamingPlatform:
 ### Quick Start
 ```bash
 # Clone repository
-git clone https://github.com/openmineral/platform.git
+git clone https://github.com/FreeAiHub/openmineral.git
 cd openmineral
 
-# Setup Python environment with UV (modern package manager)
-uv venv
-source .venv/bin/activate
-uv pip install -r backend/requirements.txt
+# Use Docker Compose (recommended)
+docker compose up -d
 
-# Setup frontend with pnpm (fast package manager)
-cd frontend
-pnpm install
-pnpm dev
+# Or run individually:
+# Backend
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-# Or use modern Docker Compose with profiles
-docker compose --profile development up
+# Frontend
+cd ../frontend
+npm install
+npm start
+
+# Access:
+# - Frontend: http://localhost:3000
+# - Backend API: http://localhost:8000
+# - API Docs: http://localhost:8000/docs
 ```
+
+### Prerequisites
+- Docker & Docker Compose (recommended)
+- Or Node.js 18+, Python 3.11+
 
 ### Advanced Setup
 ```bash
