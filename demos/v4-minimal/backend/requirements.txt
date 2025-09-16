@@ -1,0 +1,14 @@
+# OpenMineral v4-minimal Backend Dependencies
+# Minimal FastAPI setup for proof-of-concept demo
+
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+
+# Development
+python-dotenv==1.0.0
