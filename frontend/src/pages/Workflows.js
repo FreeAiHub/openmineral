@@ -1,26 +1,39 @@
-import React, { useState } from 'react';
-import { 
-  Card, 
-  Table, 
-  Button, 
-  Modal, 
-  Form, 
-  Input, 
-  Select, 
-  Space, 
+import React, { useState, useEffect } from 'react';
+import {
+  Card,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Space,
   Typography,
   Tag,
   Descriptions,
   Steps,
-  List
+  List,
+  Tabs,
+  Alert,
+  Progress,
+  Spin,
+  message,
+  Input as AntInput
 } from 'antd';
-import { 
-  EyeOutlined, 
-  PlayCircleOutlined, 
+import {
+  EyeOutlined,
+  PlayCircleOutlined,
   PauseCircleOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined
+  CloseCircleOutlined,
+  RobotOutlined,
+  ThunderboltOutlined,
+  BarChartOutlined,
+  PlusOutlined,
+  SettingOutlined,
+  ExperimentOutlined
 } from '@ant-design/icons';
+import axios from 'axios'; // Assuming axios is available for API calls
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -39,9 +52,36 @@ const Workflows = () => {
       currentStep: 3,
       totalSteps: 4,
       startedAt: '2025-09-14',
-      createdBy: 'system'
+      createdBy: 'system',
+      isAI: false
     }
   ]);
+
+  // AI-Powered Workflow States
+  const [aiWorkflows, setAiWorkflows] = useState([]);
+  const [isAIGenerating, setIsAIGenerating] = useState(false);
+  const [isAIStepExecuting, setIsAIStepExecuting] = useState(false);
+  const [aiMetrics, setAiMetrics] = useState(null);
+  const [showAIModal, setShowAIModal] = useState(false);
+  const [currentAIModal, setCurrentAIModal] = useState(null);
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [optimizationResults, setOptimizationResults] = useState(null);
+
+  // Load AI metrics on component mount
+  useEffect(() => {
+    loadAIMetrics();
+  }, []);
+
+  const loadAIMetrics = async () => {
+    try {
+      const response = await axios.get('/api/workflow/ai/metrics', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setAiMetrics(response.data);
+    } catch (error) {
+      console.error('Failed to load AI metrics:', error);
+    }
+  };
 
   const [workflowSteps, setWorkflowSteps] = useState([
     {
@@ -191,26 +231,282 @@ const Workflows = () => {
     },
   ];
 
+  // AI Workflow Functions
+  const generateAIWorkflow = async () => {
+    if (!aiPrompt.trim()) {
+      message.warning('Please enter a workflow prompt');
+      return;
+    }
+
+    setIsAIGenerating(true);
+    try {
+      const response = await axios.post('/api/workflow/ai/generate-workflow', {
+        prompt: aiPrompt,
+        workflow_type: 'deal_analysis'
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      message.success('AI workflow generated successfully!');
+      setAiWorkflows([...aiWorkflows, response.data.workflow]);
+      setAiPrompt('');
+    } catch (error) {
+      message.error('Failed to generate AI workflow');
+    } finally {
+      setIsAIGenerating(false);
+    }
+  };
+
+  const executeAIStep = async (workflowId, stepId) => {
+    setIsAIStepExecuting(true);
+    try {
+      const response = await axios.post(`/api/workflow/ai/execute-step`, {
+        workflow_id: workflowId,
+        step_id: stepId
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      message.success('AI step executed successfully!');
+      return response.data;
+    } catch (error) {
+      message.error('Failed to execute AI step');
+    } finally {
+      setIsAIStepExecuting(false);
+    }
+  };
+
+  const optimizeWorkflow = async (workflowId) => {
+    try {
+      const response = await axios.post(`/api/workflow/ai/optimize-workflow/${workflowId}`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      setOptimizationResults(response.data);
+      setCurrentAIModal('optimize');
+      setShowAIModal(true);
+    } catch (error) {
+      message.error('Failed to optimize workflow');
+    }
+  };
+
+  const tabItems = [
+    {
+      key: 'traditional',
+      label: 'Traditional Workflows',
+      children: (
+        <div>
+          <div style={{ marginBottom: 16 }}>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => {}}
+            >
+              Create New Workflow
+            </Button>
+          </div>
+          <Table
+            dataSource={workflows}
+            columns={columns}
+            pagination={{ pageSize: 10 }}
+          />
+        </div>
+      ),
+    },
+    {
+      key: 'ai',
+      label: (
+        <span>
+          <RobotOutlined style={{ marginRight: 8 }} />
+          AI-Powered Workflows
+        </span>
+      ),
+      children: (
+        <div>
+          {/* AI Metrics */}
+          {aiMetrics && (
+            <div style={{ marginBottom: 24 }}>
+              <Card size="small">
+                <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+                  <div>
+                    <div style={{ color: '#666', fontSize: 12 }}>Total AI Workflows</div>
+                    <div style={{ fontSize: 24, fontWeight: 'bold' }}>{aiMetrics.total_ai_workflows}</div>
+                  </div>
+                  <div>
+                    <div style={{ color: '#666', fontSize: 12 }}>Success Rate</div>
+                    <div style={{ fontSize: 24, fontWeight: 'bold', color: '#52c41a' }}>
+                      {(aiMetrics.success_rate * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: '#666', fontSize: 12 }}>Avg Execution Time</div>
+                    <div style={{ fontSize: 18, fontWeight: 'bold' }}>{aiMetrics.average_execution_time}</div>
+                  </div>
+                  <div>
+                    <div style={{ color: '#666', fontSize: 12 }}>Cost Savings</div>
+                    <div style={{ fontSize: 18, fontWeight: 'bold', color: '#1890ff' }}>
+                      {aiMetrics.cost_savings}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* AI Workflow Generator */}
+          <Card title={<><RobotOutlined /> AI Workflow Generator</>} style={{ marginBottom: 24 }}>
+            <div style={{ display: 'flex', gap: 16 }}>
+              <AntInput.TextArea
+                placeholder="Describe the workflow you want to create (e.g., 'Create a deal approval process for commodity purchases')"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                rows={3}
+                style={{ flex: 1 }}
+              />
+              <Button
+                type="primary"
+                icon={<ThunderboltOutlined />}
+                loading={isAIGenerating}
+                onClick={generateAIWorkflow}
+                style={{ height: 'auto', padding: '8px 16px' }}
+              >
+                Generate AI
+              </Button>
+            </div>
+          </Card>
+
+          {/* AI Workflow Actions */}
+          <div style={{ marginBottom: 16 }}>
+            <Space>
+              <Button
+                icon={<BarChartOutlined />}
+                onClick={() => {
+                  setCurrentAIModal('metrics');
+                  setShowAIModal(true);
+                }}
+              >
+                View Metrics
+              </Button>
+              <Button
+                icon={<SettingOutlined />}
+                onClick={() => {
+                  setCurrentAIModal('optimize');
+                  setShowAIModal(true);
+                }}
+              >
+                Optimize Workflow
+              </Button>
+            </Space>
+          </div>
+
+          {/* AI Workflows Table */}
+          <Table
+            dataSource={aiWorkflows}
+            columns={[
+              { title: 'Name', dataIndex: 'name', key: 'name' },
+              { title: 'Goal', dataIndex: 'overall_goal', key: 'goal' },
+              {
+                title: 'Steps',
+                dataIndex: 'steps',
+                key: 'steps',
+                render: (steps) => steps?.length || 0
+              },
+              {
+                title: 'AI Coordinator',
+                dataIndex: 'ai_coordinator',
+                key: 'ai',
+                render: (ai) => ai ? <Tag color="blue">AI</Tag> : <Tag>Manual</Tag>
+              },
+              {
+                title: 'Actions',
+                key: 'actions',
+                render: (_, record) => (
+                  <Space>
+                    <Button
+                      icon={<EyeOutlined />}
+                      onClick={() => {
+                        setSelectedWorkflow(record);
+                        setIsModalVisible(true);
+                      }}
+                    >
+                      View
+                    </Button>
+                    <Button
+                      icon={<PlayCircleOutlined />}
+                      onClick={() => executeAIStep(record.id, 1)}
+                      loading={isAIStepExecuting}
+                    >
+                      Execute
+                    </Button>
+                    <Button
+                      icon={<ExperimentOutlined />}
+                      onClick={() => optimizeWorkflow(record.id)}
+                    >
+                      Optimize
+                    </Button>
+                  </Space>
+                ),
+              },
+            ]}
+            pagination={{ pageSize: 10 }}
+          />
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <Card>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <Title level={2} style={{ margin: 0 }}>Workflow Automation</Title>
-          <Button 
-            type="primary" 
-            icon={<PlayCircleOutlined />} 
-            onClick={() => {}}
-          >
-            Create New Workflow
-          </Button>
-        </div>
+      <Tabs items={tabItems} defaultActiveKey="traditional" />
 
-        <Table 
-          dataSource={workflows} 
-          columns={columns} 
-          pagination={{ pageSize: 10 }}
-        />
-      </Card>
+      {/* AI Results Modal */}
+      <Modal
+        title={
+          currentAIModal === 'metrics' ? 'AI Workflow Metrics' :
+          currentAIModal === 'optimize' ? 'Workflow Optimization Results' :
+          'AI Results'
+        }
+        visible={showAIModal}
+        onCancel={() => setShowAIModal(false)}
+        width={700}
+        footer={<Button onClick={() => setShowAIModal(false)}>Close</Button>}
+      >
+        {currentAIModal === 'metrics' && aiMetrics && (
+          <div>
+            <Progress
+              type="circle"
+              percent={aiMetrics.success_rate * 100}
+              format={(percent) => `${percent.toFixed(1)}%`}
+              style={{ marginBottom: 16 }}
+            />
+            <Descriptions column={1} bordered>
+              <Descriptions.Item label="Total AI Workflows">{aiMetrics.total_ai_workflows}</Descriptions.Item>
+              <Descriptions.Item label="Success Rate">{(aiMetrics.success_rate * 100).toFixed(1)}%</Descriptions.Item>
+              <Descriptions.Item label="Average Execution Time">{aiMetrics.average_execution_time}</Descriptions.Item>
+              <Descriptions.Item label="Cost Savings">{aiMetrics.cost_savings}</Descriptions.Item>
+              <Descriptions.Item label="Accuracy Improvement">{aiMetrics.accuracy_improvement}</Descriptions.Item>
+            </Descriptions>
+          </div>
+        )}
+
+        {currentAIModal === 'optimize' && optimizationResults && (
+          <div>
+            <Alert
+              message="Optimization Completed"
+              description={optimizationResults.ai_recommendations}
+              type="success"
+              style={{ marginBottom: 16 }}
+            />
+            <List
+              dataSource={optimizationResults.optimization_opportunities}
+              renderItem={(item) => <List.Item>{item}</List.Item>}
+            />
+            <div style={{ marginTop: 16, padding: 16, backgroundColor: '#f6ffed', border: '1px solid #b7eb8f' }}>
+              <strong>Estimated Improvement:</strong> {optimizationResults.estimated_improvement}
+            </div>
+          </div>
+        )}
+      </Modal>
 
       <Modal
         title="Workflow Details"

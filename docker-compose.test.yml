@@ -1,0 +1,107 @@
+version: '3.9'
+
+services:
+  # Test Database - PostgreSQL
+  test-postgres:
+    image: postgres:16-alpine
+    container_name: openmineral-test-postgres
+    environment:
+      POSTGRES_DB: openmineral_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+      - ./database/test_schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d openmineral_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Test Cache - Redis
+  test-redis:
+    image: redis:7-alpine
+    container_name: openmineral-test-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - test_redis_data:/data
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Test Backend
+  test-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+      target: test
+    container_name: openmineral-test-backend
+    environment:
+      - DATABASE_URL=postgresql://test_user:test_password@test-postgres:5432/openmineral_test
+      - REDIS_URL=redis://test-redis:6379/0
+      - ENVIRONMENT=test
+      - SECRET_KEY=test-key-for-development-only
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+      test-redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/backend
+      - ./test-results:/app/test-results
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Test Frontend
+  test-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+      target: test
+    container_name: openmineral-test-frontend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8001
+      - NODE_ENV=test
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
+
+  # Test AI Services
+  test-ai-service:
+    build:
+      context: ./ai-tools
+      dockerfile: Dockerfile.test
+    container_name: openmineral-test-ai
+    environment:
+      - PYTHONPATH=/app
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - PINECONE_ENVIRONMENT=dev
+    volumes:
+      - ./ai-tools:/app/ai-tools
+      - ./test-results:/app/test-results
+    depends_on:
+      - test-redis
+    ports:
+      - "8010:8000"
+
+volumes:
+  test_postgres_data:
+  test_redis_data:
