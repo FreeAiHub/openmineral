@@ -155,13 +155,15 @@ nav:
     - Risk Assessment: api/risk.md
     - Compliance: api/compliance.md
     - Workflows: api/workflows.md
-  - Development:
-    - Architecture: development/architecture.md
-    - Backend Development: development/backend.md
-    - Frontend Development: development/frontend.md
-    - Database Design: development/database.md
-    - Testing: development/testing.md
-    - Deployment: development/deployment.md
+    - Development:
+      - Architecture: development/architecture.md
+      - Backend Development: development/backend.md
+      - Frontend Development: development/frontend.md
+      - Database Design: development/database.md
+      - Testing: development/testing.md
+      - Deployment: development/deployment.md
+      - ADR Guidelines: development/adr.md
+      - Glossary: development/glossary.md
   - Infrastructure:
     - Cloud Setup: infrastructure/cloud-setup.md
     - Kubernetes: infrastructure/kubernetes.md
