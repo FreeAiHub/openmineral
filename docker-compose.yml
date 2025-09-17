@@ -8,11 +8,17 @@ services:
     environment:
       POSTGRES_DB: openmineral
       POSTGRES_USER: openmineral
-      POSTGRES_PASSWORD: openmineral123
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./secrets/postgres_password:/run/secrets/postgres_password:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openmineral -d openmineral"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - openmineral-network
 
@@ -22,11 +28,17 @@ services:
     container_name: openmineral-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: openmineral
-      MONGO_INITDB_ROOT_PASSWORD: openmineral123
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_password
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+      - ./secrets/mongo_password:/run/secrets/mongo_password:ro
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
     networks:
       - openmineral-network
 
@@ -48,8 +60,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRESQL_URL=postgresql://openmineral:openmineral123@postgres:5432/openmineral
-      - MONGODB_URL=mongodb://openmineral:openmineral123@mongodb:27017/openmineral
+      - POSTGRESQL_URL=postgresql://openmineral:$$(cat /run/secrets/postgres_password)@postgres:5432/openmineral
+      - MONGODB_URL=mongodb://openmineral:$$(cat /run/secrets/mongo_password)@mongodb:27017/openmineral
       - REDIS_URL=redis://redis:6379/0
     volumes:
       - ./backend:/app
@@ -81,3 +93,9 @@ networks:
 volumes:
   postgres_data:
   mongodb_data:
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password
+  mongo_password:
+    file: ./secrets/mongo_password

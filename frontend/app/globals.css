@@ -1,0 +1,35 @@
+/* Basic Ant Design overrides */
+.demo-logo-vertical {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+
+/* Custom styles for dashboard */
+.ant-card {
+  margin-bottom: 16px;
+}
+
+.ant-statistic-content {
+  font-size: 24px;
+}
+
+.ant-table {
+  background: transparent;
+}
+
+.ant-table-thead > tr > th {
+  background: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .ant-col {
+    margin-bottom: 16px;
+  }
+}

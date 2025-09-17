@@ -1,0 +1,137 @@
+{
+  "minerals": [
+    {
+      "id": "copper_base_metal",
+      "name": {
+        "ru": "Медь",
+        "en": "Copper"
+      },
+      "symbol": "Cu",
+      "type": "base_metal",
+      "description": "Основной промышленный металл для электропроводки, строительства, электроники, возобновляемой энергетики",
+      "current_price": 9500,
+      "unit": "USD/ton",
+      "market": "LME",
+      "annual_production": 21000000,
+      "top_producers": ["Chile", "Peru", "China"],
+      "risk_factors": ["china_demand", "green_energy"],
+      "documents": [
+        "Медь (Cu) используется в электропроводке (60%), строительстве (20%), электронике (15%). Крупнейшие производители: Чили (28%), Перу (10%), Китай (8%). Цена LME: $9,500/тонна. Годовая добыча: 21 млн тонн."
+      ]
+    },
+    {
+      "id": "lithium_battery",
+      "name": {
+        "ru": "Литий",
+        "en": "Lithium"
+      },
+      "symbol": "Li",
+      "type": "battery_material",
+      "description": "Ключевой металл для литий-ионных аккумуляторов электромобилей и возобновляемой энергии",
+      "current_price": 15000,
+      "unit": "USD/ton",
+      "market": "battery_index",
+      "annual_production": 130000,
+      "top_producers": ["Australia", "Chile", "Argentina"],
+      "risk_factors": ["supply_chain", "environmental"],
+      "documents": [
+        "Литий (Li) - критический компонент для EV аккумуляторов. Спрос вырос на 300% за 5 лет. Основные источники: соляные озера Австралии, Чили. Цена карбоната лития: $15,000/тонна."
+      ]
+    },
+    {
+      "id": "gold_precious",
+      "name": {
+        "ru": "Золото",
+        "en": "Gold"
+      },
+      "symbol": "Au",
+      "type": "precious_metal",
+      "description": "Драгоценный металл для ювелирных изделий, инвестиций, электроники",
+      "current_price": 2650,
+      "unit": "USD/oz",
+      "market": "COMEX",
+      "annual_production": 3300,
+      "top_producers": ["China", "Australia", "Russia"],
+      "risk_factors": ["inflation", "geopolitics"],
+      "documents": [
+        "Золото (Au) - защитный актив. Цена спот: $2,650/унция. Используется в ювелирных изделиях (50%), инвестициях (40%), электронике (10%). Крупнейшие производители: Китай, Австралия, Россия."
+      ]
+    },
+    {
+      "id": "nickel_base",
+      "name": {
+        "ru": "Никель",
+        "en": "Nickel"
+      },
+      "symbol": "Ni",
+      "type": "base_metal",
+      "description": "Металл для нержавеющей стали и EV аккумуляторов",
+      "current_price": 18000,
+      "unit": "USD/ton",
+      "market": "LME",
+      "annual_production": 2500000,
+      "top_producers": ["Indonesia", "Philippines", "Russia"],
+      "risk_factors": ["export_bans", "supply_concentration"],
+      "documents": [
+        "Никель (Ni) - используется в нержавеющей стали (65%), EV аккумуляторах (20%). Крупнейший производитель: Индонезия (50%). Цена LME: $18,000/тонна. Экспортные ограничения создают риски."
+      ]
+    },
+    {
+      "id": "iron_ore_industrial",
+      "name": {
+        "ru": "Железная руда",
+        "en": "Iron Ore"
+      },
+      "symbol": "Fe",
+      "type": "industrial_metal",
+      "description": "Основной сырье для производства стали",
+      "current_price": 110,
+      "unit": "USD/ton",
+      "market": "DCE",
+      "annual_production": 2600000000,
+      "top_producers": ["Australia", "Brazil", "China"],
+      "risk_factors": ["china_economy", "infrastructure"],
+      "documents": [
+        "Железная руда (Fe) - основной сырье для стали (98% добычи). Крупнейшие экспортеры: Австралия (55%), Бразилия (20%). Цена 62% Fe: $110/тонна. Спрос зависит от строительства в Китае."
+      ]
+    }
+  ],
+  "deals": [
+    {
+      "deal_id": "OMH-001",
+      "commodity": "copper",
+      "counterparty": "Glencore",
+      "quantity": 500,
+      "price": 9500,
+      "total_usd": 4750000,
+      "status": "confirmed",
+      "date": "2025-01-15",
+      "region": "South_America",
+      "risk_level": "medium"
+    },
+    {
+      "deal_id": "OMH-002", 
+      "commodity": "lithium",
+      "counterparty": "SQM",
+      "quantity": 200,
+      "price": 15000,
+      "total_usd": 3000000,
+      "status": "negotiation",
+      "date": "2025-02-01",
+      "region": "South_America",
+      "risk_level": "high"
+    },
+    {
+      "deal_id": "OMH-003",
+      "commodity": "iron_ore",
+      "counterparty": "DCE_Exchange",
+      "quantity": 1000,
+      "price": 110,
+      "total_usd": 110000,
+      "status": "executed",
+      "date": "2025-03-10",
+      "region": "Asia",
+      "risk_level": "low"
+    }
+  ]
+}
