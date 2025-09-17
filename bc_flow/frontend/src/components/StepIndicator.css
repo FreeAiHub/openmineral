@@ -1,0 +1,151 @@
+/* Step Indicator Styles */
+
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #dee2e6;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.step-item:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.step-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.step-item:not(.active):not(.completed) .step-circle {
+  background: #e9ecef;
+  color: #6c757d;
+  border: 2px solid #dee2e6;
+}
+
+.step-item.active .step-circle {
+  background: #007bff;
+  color: white;
+  border: 2px solid #007bff;
+  box-shadow: 0 0 0 4px rgba(0,123,255,0.2);
+}
+
+.step-item.completed .step-circle {
+  background: #28a745;
+  color: white;
+  border: 2px solid #28a745;
+}
+
+.checkmark {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.step-info {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #495057;
+}
+
+.step-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.step-connector {
+  position: absolute;
+  top: 25px;
+  left: 50px;
+  right: -2rem;
+  height: 2px;
+  background: #dee2e6;
+  z-index: 1;
+}
+
+.step-item.completed .step-connector {
+  background: #28a745;
+}
+
+.step-item.active .step-connector {
+  background: #007bff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .step-indicator {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .step-item {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .step-item:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  .step-connector {
+    display: none; /* Hide connectors on mobile */
+  }
+
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .step-title {
+    font-size: 1rem;
+  }
+
+  .step-description {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-indicator {
+    padding: 1rem;
+  }
+
+  .step-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .step-circle {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-info {
+    text-align: center;
+  }
+}
