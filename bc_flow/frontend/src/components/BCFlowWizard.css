@@ -1,0 +1,170 @@
+/* BC Flow Wizard Specific Styles */
+
+/* Override default styles for wizard context */
+.bc-flow-wizard .step-indicator {
+  margin: 0;
+  border-radius: 0;
+}
+
+.bc-flow-wizard .step-content {
+  background: #ffffff;
+}
+
+/* Enhanced form styling for wizard */
+.bc-flow-wizard .form-group input,
+.bc-flow-wizard .form-group select {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.bc-flow-wizard .form-group input::placeholder,
+.bc-flow-wizard .form-group select option {
+  color: #6c757d;
+}
+
+/* Enhanced validation styling */
+.bc-flow-wizard .validation-section {
+  border-left: 4px solid;
+  margin-top: 1.5rem;
+}
+
+.bc-flow-wizard .validation-section.suggestions {
+  border-left-color: #17a2b8;
+}
+
+.bc-flow-wizard .validation-section.warnings {
+  border-left-color: #dc3545;
+}
+
+/* Processing indicator enhancements */
+.bc-flow-wizard .processing-indicator {
+  border: 2px solid #007bff;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+}
+
+.bc-flow-wizard .processing-indicator p {
+  color: #007bff;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* Step navigation enhancements */
+.bc-flow-wizard .step-navigation {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-top: 2px solid #dee2e6;
+}
+
+.bc-flow-wizard .btn {
+  min-width: 120px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.bc-flow-wizard .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.bc-flow-wizard .btn:active {
+  transform: translateY(0);
+}
+
+/* Focus states for accessibility */
+.bc-flow-wizard .form-group input:focus,
+.bc-flow-wizard .form-group select:focus {
+  transform: scale(1.01);
+}
+
+/* Loading states */
+.bc-flow-wizard.submitting {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.bc-flow-wizard.submitting .step-content {
+  filter: blur(1px);
+}
+
+/* Success states */
+.bc-flow-wizard.completed .step-content {
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+}
+
+/* Error states */
+.bc-flow-wizard.error .step-content {
+  background: linear-gradient(135deg, #fff8f8 0%, #ffffff 100%);
+}
+
+/* Animation for step transitions */
+.step-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+  .bc-flow-wizard .step-navigation {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .bc-flow-wizard .btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .bc-flow-wizard .form-row {
+    gap: 1rem;
+  }
+
+  .bc-flow-wizard .validation-section {
+    margin-top: 1rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bc-flow-wizard .step-content {
+    padding: 1rem;
+  }
+
+  .bc-flow-wizard .step-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .bc-flow-wizard .step-description {
+    font-size: 1rem;
+  }
+
+  .bc-flow-wizard .form-group input,
+  .bc-flow-wizard .form-group select {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .bc-flow-wizard .step-navigation,
+  .bc-flow-wizard .processing-indicator {
+    display: none;
+  }
+
+  .bc-flow-wizard .step-content {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
