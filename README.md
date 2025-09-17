@@ -1,8 +1,8 @@
-# 🚀 OpenMineralHub - AI-First Commodity Trading Platform
+# 🚀 OpenMineral - AI-First Commodity Trading Platform
 
 **Production-Ready AI Trading Infrastructure for Commodity Markets - Built by Senior Trading Systems Engineers**
 
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/FreeAiHub/openmineralhub/releases)
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/FreeAiHub/openmineral/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11+-brightgreen.svg)](https://python.org)
 [![React](https://img.shields.io/badge/React-18.2+-blue.svg)](https://reactjs.org)
@@ -14,7 +14,7 @@
 
 ## 📋 Executive Summary
 
-**OpenMineralHub** - это enterprise-grade AI платформа для автоматизации commodity trading lifecycle, разработанная командой с 5+ летним опытом building production trading systems. Платформа обеспечивает полную автоматизацию от pre-deal анализа до post-trade settlement с использованием современных AI/ML подходов.
+**OpenMineral** - это enterprise-grade AI платформа для автоматизации commodity trading lifecycle, разработанная командой с 5+ летним опытом building production trading systems. Платформа обеспечивает полную автоматизацию от pre-deal анализа до post-trade settlement с использованием современных AI/ML подходов.
 
 ### 🎯 Core Business Value Proposition
 - 🤖 **AI-Powered Decision Making** - Multi-modal AI анализ с GPT-4 Turbo, Claude 3.5 Sonnet
@@ -84,7 +84,7 @@ redis[hiredis]==5.0.1               # Redis with C-based hiredis parser
 motor==3.3.2                        # Async MongoDB driver
 
 # AI/ML Production Framework
-langchain==0.1.0                    # LLM orchestration framework
+langchain==0.2.0                    # LLM orchestration framework
 langgraph==0.0.35                   # Complex workflow state management
 langsmith==0.0.75                   # Production monitoring and tracing
 openai==1.6.1                       # GPT-4 Turbo API integration
@@ -198,7 +198,7 @@ Vault                # Secrets management
 ## 🏆 Competitive Advantages
 
 ### **Market Position**
-OpenMineralHub занимает уникальную позицию на рынке AI-powered commodity trading платформ:
+OpenMineral занимает уникальную позицию на рынке AI-powered commodity trading платформ:
 
 - **AI-First Approach**: В отличие от традиционных CTRM систем, мы строим платформу вокруг возможностей ИИ
 - **Modern Architecture**: React 18+, FastAPI, Kubernetes vs legacy Java/.NET монолиты
@@ -292,7 +292,7 @@ pydantic==2.5.0               # Data validation with Pydantic V2
 sqlalchemy[asyncio]==2.0.23   # Async SQLAlchemy for better performance
 
 # AI/ML Framework - Latest versions
-langchain==0.1.0              # LLM application framework
+langchain==0.2.0              # LLM application framework
 langgraph==0.0.35             # Complex workflow orchestration
 langsmith==0.0.75             # LangChain monitoring and debugging
 openai==1.6.1                 # GPT-4 Turbo API integration
@@ -659,7 +659,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 # Frontend
 cd ../frontend
 npm install
-npm start
+npm run dev
 
 # Access:
 # - Frontend: http://localhost:3000
@@ -724,6 +724,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Commercial Use**: Permitted under MIT license with attribution
 **Contributions**: All contributions subject to Developer Certificate of Origin (DCO)
 **Security**: Responsible disclosure policy for security vulnerabilities
+
+## Assumptions & Future Improvements
+
+### Assumptions
+- All API endpoints are idempotent.
+- Basic authentication via API keys.
+- Mock AI suggestions in BC Flow for demonstration.
+
+### Future Improvements
+- Implement OAuth2 authentication and RBAC.
+- Enhance error handling and validation for edge cases.
+- Add file upload support in BC Flow.
+- Expand test coverage for critical paths.
+- Integrate real-time WebSocket updates.
 
 ## 🔗 Links & Resources
 
