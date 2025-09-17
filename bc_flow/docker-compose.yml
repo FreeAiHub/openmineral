@@ -1,11 +1,10 @@
-version: '3.8'
 
 services:
   # BC Flow Backend API
   bc-flow-backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/Dockerfile.backend
     ports:
       - "8000:8000"
     environment:
