@@ -28,14 +28,32 @@
 
 **Data Sources We Can Monitor**:
 ```python
-# Trafigura monitoring endpoints
+# Trafigura monitoring endpoints (актуальные)
 TRAFIGURA_SOURCES = {
-    'public_api': 'https://api.trafigura.com/market-data',
-    'press_releases': 'https://www.trafigura.com/media/press-releases',
-    'job_postings': 'https://careers.trafigura.com',
-    'annual_reports': 'https://www.trafigura.com/responsibility/reporting',
-    'patent_filings': 'https://patents.google.com/?assignee=Trafigura'
+    'news_and_insights': 'https://www.trafigura.com/news-and-insights/',
+    'press_releases_archive': 'https://www.trafigura.com/news-and-insights/press-releases/', # Общий архив
+    'job_postings': 'https://careers.trafigura.com', # Актуально
+    'annual_reports': 'https://www.trafigura.com/responsibility/reporting', # Актуально
+    'patent_filings': 'https://patents.google.com/?assignee=Trafigura' # Актуально
 }
+
+# Пример извлечения данных из пресс-релизов
+def extract_trafigura_press_releases(url):
+    # В реальной системе здесь будет парсинг HTML и извлечение данных
+    # Например, с использованием BeautifulSoup или Scrapy
+    print(f"Извлечение пресс-релизов с: {url}")
+    # Пример:
+    # response = requests.get(url)
+    # soup = BeautifulSoup(response.content, 'html.parser')
+    # latest_releases = soup.find_all('a', class_='press-release-link')
+    # return [release.text for release in latest_releases]
+    return [
+        "Trafigura signs long-term LNG supply agreement with KOGAS (25 Aug 2025)",
+        "LAR Strengthens Governance with New CEO Appointment and Board Leadership (19 Aug 2025)",
+        "K-SURE and Trafigura sign USD200 million financing agreement to support Korean shipping companies (29 Jul 2025)",
+        "Trafigura returns to USD debt market with USD500 million senior bond (15 Jul 2025)",
+        "Trafigura announces strategic alliance with maritime technology provider ZeroNorth (9 Jul 2025)"
+    ]
 ```
 
 **Our Competitive Advantages**:
@@ -71,13 +89,33 @@ VITOL_TECH_STACK = {
 
 **Monitoring Strategy**:
 ```python
+VITOL_SOURCES = {
+    'media': 'https://www.vitol.com/media/',
+    'job_postings': 'https://www.vitol.com/careers/', # Актуально
+    'annual_reports': 'https://www.vitol.com/about/financial-information/' # Предполагаемый путь
+}
+
 def monitor_vitol_developments():
+    # В реальной системе здесь будет парсинг HTML и извлечение данных
+    # Например, с использованием BeautifulSoup или Scrapy
+    print(f"Извлечение новостей Vitol с: {VITOL_SOURCES['media']}")
+    # Пример:
+    # response = requests.get(VITOL_SOURCES['media'])
+    # soup = BeautifulSoup(response.content, 'html.parser')
+    # latest_news = soup.find_all('a', class_='news-link')
+    # return [news.text for news in latest_news]
     return {
-        'technology_hiring': track_job_postings('vitol', tech_keywords),
-        'azure_partnership': monitor_microsoft_case_studies(),
-        'digital_initiatives': scrape_digital_transformation_news(),
-        'api_endpoints': scan_public_api_availability(),
-        'open_source': monitor_github_organizations(['vitol'])
+        'latest_news': [
+            "Vitol and OCTP partners sign memorandum of intent with the Government of Ghana (Sep 16th 2025)",
+            "GAIL (India) Ltd and Vitol sign a multi-year LNG Sales and Purchase Agreement (SPA) (Jul 14th 2025)",
+            "Vitol and CSN Mining enter into $240m prepay arrangement (Jul 14th 2025)",
+            "Vitol and Breakwall Capital LP announce the formation of Valor Mining Credit Partners, L.P. (Jul 2nd 2025)"
+        ],
+        'technology_hiring': "Анализ вакансий Vitol для выявления технологических трендов",
+        'azure_partnership': "Мониторинг кейсов Microsoft и новостей о партнерстве",
+        'digital_initiatives': "Скрапинг новостей о цифровых инициативах",
+        'api_endpoints': "Сканирование публичных API Vitol",
+        'open_source': "Мониторинг GitHub организаций Vitol"
     }
 ```
 
@@ -95,9 +133,10 @@ def monitor_vitol_developments():
 **Data Collection Opportunities**:
 ```python
 MERCURIA_INTELLIGENCE = {
+    'news_and_insights': 'https://mercuria.com/media-room/',
     'public_endpoints': [
-        'https://www.mercuria.com/api/market-data',
-        'https://careers.mercuria.com/openings'
+        'https://www.mercuria.com/api/market-data', # Проверить актуальность
+        'https://mercuria.com/careers/' # Актуально
     ],
     'conference_presentations': [
         'FT Commodities Summit presentations',
@@ -108,6 +147,90 @@ MERCURIA_INTELLIGENCE = {
         'Data provider integrations'
     ]
 }
+
+# Пример извлечения данных из новостей Mercuria
+def extract_mercuria_news(url):
+    # В реальной системе здесь будет парсинг HTML и извлечение данных
+    print(f"Извлечение новостей Mercuria с: {url}")
+    return [
+        "Sino-Swiss Business Awards 2025 Celebrate Outstanding Business Achievements and 75th Anniversary of Sino-Swiss Bilateral Relations (Sep 2025)",
+        "TechMet and Mercuria Expand Partnership (Aug 2025)",
+        "Mercuria and Other Industry Leaders Take Action to Revolutionize the ARA Bunkering Market (Jul 2025)",
+        "Mercuria, Along With Its Founders, and S2G Investments Announce Strategic Partnership for Flexible, Economic Solutions in Energy Modernization and Nature (Jul 2025)"
+    ]
+```
+
+#### 4. Glencore - Лидер с вертикальной интеграцией
+**Company Overview**:
+- **Рыночная капитализация**: $70B+ | **Revenue**: $220B (2023)
+- **Позиция**: Крупнейший производитель и трейдер металлов
+
+**Ключевые активы:**
+- **Медь**: 1.3M тонн производства annually
+- **Кобальт**: 30% мирового рынка
+- **Цинк**: 1.1M тонн производства
+- **Никель**: 120k тонн производства
+- **Железная руда**: Торговля от third parties
+
+**Технологическая стратегия:**
+- **Инвестиции в AI**: $500M+ в цифровую трансформацию
+- **Партнерства**: Microsoft Azure для cloud infrastructure
+- **Цифровые платформы**: Внутренняя торговая платформа
+- **Угроза для нас**: Огромные ресурсы + вертикальная интеграция
+
+**Наши преимущества:**
+- ✅ Более современная AI-first архитектура
+- ✅ Гибкость и скорость инноваций
+- ✅ Фокус на технологическом превосходстве
+
+**Monitoring Strategy**:
+```python
+GLENCORE_SOURCES = {
+    'news': 'https://www.glencore.com/media/news',
+    'rns_announcements': 'https://www.glencore.com/investors/regulatory-announcements',
+    'annual_reports': 'https://www.glencore.com/investors/reports-and-results',
+    'job_postings': 'https://careers.glencore.com/' # Предполагаемый путь
+}
+
+def extract_glencore_news(url):
+    # В реальной системе здесь будет парсинг HTML и извлечение данных
+    print(f"Извлечение новостей Glencore с: {url}")
+    return [
+        "2025 H2 Distribution Determination of currency amounts (05 Sep 2025)",
+        "Glencore submits RIGI applications in respect of its Argentine copper projects (18 Aug 2025)",
+        "2025 Half-Year Report (06 Aug 2025)",
+        "Half-Year Production Report 2025 (30 Jul 2025)"
+    ]
+```
+
+#### 5. Gunvor Group
+**Company Overview**:
+- Один из крупнейших независимых энергетических и сырьевых трейдеров.
+- Активно инвестирует в энергетический переход и устойчивые решения.
+
+**Технологическая стратегия:**
+- Фокус на цифровизации и оптимизации торговых операций.
+- Инвестиции в технологии для отслеживания выбросов и устойчивого развития.
+
+**Monitoring Strategy**:
+```python
+GUNVOR_SOURCES = {
+    'news': 'https://gunvorgroup.com/news/',
+    'press_releases': 'https://gunvorgroup.com/media/press-releases/', # Проверить актуальность
+    'annual_reports': 'https://gunvorgroup.com/investors/reports/', # Предполагаемый путь
+    'job_postings': 'https://gunvorgroup.com/careers/' # Актуально
+}
+
+def extract_gunvor_news(url):
+    # В реальной системе здесь будет парсинг HTML и извлечение данных
+    print(f"Извлечение новостей Gunvor с: {url}")
+    return [
+        "Gunvor and New Energy to collaborate on industrial-scale waste tire recycling (Sep 2025)",
+        "Texas LNG, Gunvor Announce Binding LNG Offtake Agreement (Sep 2025)",
+        "Genesis Fertilizers and Gunvor Pursuing Partnership to Secure Natural Gas Supply, DEF Offtake, and Carbon Credits Monetization (Aug 2025)",
+        "AMIGO LNG Signs 20-Year LNG SPA with GUNVOR to Deliver Reliable, Competitive Energy to Global Markets (Aug 2025)",
+        "Gabon National Oil Company successfully closes Tullow Oil Gabon asset acquisition (Aug 2025)"
+    ]
 ```
 
 ### Tier 2: Specialized Trading Technology Vendors
@@ -126,22 +249,22 @@ MERCURIA_INTELLIGENCE = {
 - Risk management modules
 - Regulatory reporting tools
 
-**Competitive Gap Analysis**:
+**Competitive Gap Analysis (в контексте BC Flow)**:
 ```python
 EKA_GAPS = {
-    'ai_integration': 'Limited to basic analytics',
-    'cloud_native': 'Primarily on-premise deployment',
-    'user_experience': 'Traditional enterprise UI',
-    'real_time_processing': 'Batch-oriented architecture',
-    'alternative_data': 'No integration with modern data sources'
+    'ai_integration': 'Limited to basic analytics. Отсутствие AI-подсказок и автоматической валидации в процессе подтверждения сделок.',
+    'cloud_native': 'Primarily on-premise deployment. Ограниченная масштабируемость и доступность для глобальных операций BC.',
+    'user_experience': 'Traditional enterprise UI. Сложный и устаревший интерфейс для многошаговых форм, что замедляет процесс подтверждения.',
+    'real_time_processing': 'Batch-oriented architecture. Отсутствие возможности получать и обрабатывать данные для BC Flow в реальном времени.',
+    'alternative_data': 'No integration with modern data sources. Невозможность использовать альтернативные данные для обогащения информации о сделках и AI-подсказок.'
 }
 
 OUR_ADVANTAGES = {
-    'ai_first_approach': 'GPT-4 integration, LangChain workflows',
-    'cloud_native': 'Kubernetes, microservices, auto-scaling',
-    'modern_ux': 'React, Ant Design, responsive design',
-    'real_time': 'FastAPI, WebSocket, Redis pub/sub',
-    'alternative_data': 'Satellite, shipping, sentiment integration'
+    'ai_first_approach': 'GPT-4 integration, LangChain workflows. Позволит реализовать продвинутые AI-подсказки и автоматическую валидацию в BC Flow.',
+    'cloud_native': 'Kubernetes, microservices, auto-scaling. Обеспечит высокую доступность и масштабируемость для обработки большого количества подтверждений сделок.',
+    'modern_ux': 'React, Ant Design, responsive design. Создаст интуитивно понятный и быстрый интерфейс для BC Flow, сокращая время на ввод данных.',
+    'real_time': 'FastAPI, WebSocket, Redis pub/sub. Позволит получать актуальные рыночные данные для AI-подсказок в реальном времени.',
+    'alternative_data': 'Satellite, shipping, sentiment integration. Даст уникальные данные для более точных AI-прогнозов и рекомендаций в BC Flow.'
 }
 ```
 
@@ -150,18 +273,25 @@ OUR_ADVANTAGES = {
 **Technology**: Traditional Windows-based applications
 **Market**: Primarily European metal trading houses
 
-**Competitive Analysis**:
+**Competitive Analysis (в контексте BC Flow)**:
 ```python
 COMTECH_ANALYSIS = {
-    'market_position': 'Established in European metals',
-    'technology_lag': 'Legacy Windows applications',
-    'modernization_opportunity': 'Web-based platform development',
+    'market_position': 'Established in European metals. Сильная позиция на европейском рынке металлов.',
+    'technology_lag': 'Legacy Windows applications. Устаревшие приложения на базе Windows, что ограничивает гибкость и интеграцию с современными системами.',
+    'modernization_opportunity': 'Web-based platform development. Возможность создания современной веб-платформы для BC Flow, которая будет более доступной и удобной.',
     'customer_pain_points': [
-        'Limited mobile access',
-        'No AI capabilities',
-        'Manual compliance processes',
-        'Outdated user interface'
+        'Limited mobile access. Отсутствие мобильного доступа для подтверждения сделок на ходу.',
+        'No AI capabilities. Отсутствие AI-подсказок и автоматизации в процессе BC Flow.',
+        'Manual compliance processes. Ручные процессы соответствия, что увеличивает риски и время.',
+        'Outdated user interface. Устаревший пользовательский интерфейс, что снижает эффективность работы трейдеров.'
     ]
+}
+
+OUR_ADVANTAGES = {
+    'modern_web_platform': 'Создание современной веб-платформы для BC Flow, доступной с любого устройства.',
+    'ai_integration': 'Внедрение AI-подсказок и автоматической валидации для ускорения и повышения точности BC Flow.',
+    'automated_compliance': 'Автоматизация процессов соответствия для снижения рисков и повышения эффективности.',
+    'intuitive_ui_ux': 'Разработка интуитивно понятного и современного интерфейса для улучшения пользовательского опыта.'
 }
 ```
 
@@ -172,10 +302,39 @@ COMTECH_ANALYSIS = {
 **Technology**: Blockchain-based settlement, DeFi integration
 **Competitive Threat**: Medium (niche focus but innovative)
 
+**Competitive Analysis (в контексте BC Flow)**:
+```python
+CONTANGO_ANALYSIS = {
+    'blockchain_settlement': 'Использование блокчейна для расчетов может обеспечить прозрачность и безопасность, что важно для подтверждения сделок.',
+    'defi_integration': 'Интеграция с DeFi может предложить новые финансовые инструменты и гибкость в платежах, что может быть полезно для Payment Terms в BC Flow.',
+    'niche_focus': 'Их нишевый фокус на цифровых активах может означать, что они не охватывают весь спектр традиционных сырьевых товаров, что является нашим преимуществом.'
+}
+
+OUR_ADVANTAGES = {
+    'broader_commodity_scope': 'Мы охватываем широкий спектр традиционных сырьевых товаров, что делает нашу платформу более универсальной.',
+    'traditional_finance_integration': 'Наша платформа интегрируется с традиционными финансовыми инструментами, что важно для большинства трейдеров.',
+    'blockchain_as_option': 'Мы можем рассмотреть интеграцию блокчейна как опцию для определенных типов сделок, но не как основную технологию, чтобы сохранить гибкость.'
+}
+```
+
 #### 2. Hayden AI (Commodity Intelligence)
 **Focus**: AI-powered commodity market analytics
 **Technology**: Machine learning for price prediction
 **Competitive Threat**: High (direct AI competition)
+
+**Competitive Analysis (в контексте BC Flow)**:
+```python
+HAYDEN_AI_ANALYSIS = {
+    'ai_powered_analytics': 'Их сильная сторона - AI-аналитика для прогнозирования цен. Мы можем использовать это для улучшения AI-подсказок в BC Flow, предоставляя более точные рекомендации по ценам.',
+    'machine_learning_models': 'Их опыт в ML-моделях для прогнозирования цен может быть использован для разработки более сложных моделей для нашего AI-модуля.',
+    'direct_ai_competition': 'Прямая конкуренция в области AI означает, что нам нужно постоянно развивать наши AI-возможности, чтобы оставаться впереди.'
+}
+
+OUR_ADVANTAGES = {
+    'integrated_platform': 'Мы предлагаем комплексную платформу для всего цикла торговли, а не только аналитику, что дает нам преимущество.',
+    'actionable_insights': 'Наши AI-подсказки будут интегрированы непосредственно в процесс BC Flow, делая их более действенными и немедленно применимыми.',
+    'broader_data_sources': 'Мы можем использовать более широкий спектр данных, включая альтернативные, для обучения наших AI-моделей, что даст нам более точные прогнозы.'
+}
 
 **Monitoring Priority**: High
 ```python

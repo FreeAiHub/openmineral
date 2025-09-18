@@ -85,6 +85,14 @@ class Settings(BaseSettings):
     use_mock_market_data: bool = os.getenv("USE_MOCK_MARKET_DATA", "false").lower() == "true"
     use_mock_kyc_services: bool = os.getenv("USE_MOCK_KYC_SERVICES", "false").lower() == "true"
     use_mock_compliance_checks: bool = os.getenv("USE_MOCK_COMPLIANCE_CHECKS", "false").lower() == "true"
+
+    # Celery
+    celery_broker_url: str = os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0")
+    celery_result_backend: str = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
+    celery_accept_content: List[str] = ["json"]
+    celery_task_serializer: str = "json"
+    celery_result_serializer: str = "json"
+    celery_timezone: str = "Europe/Lisbon"
     
     class Config:
         env_file = ".env"

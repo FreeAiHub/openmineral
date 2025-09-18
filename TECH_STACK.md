@@ -43,7 +43,7 @@ async def create_signal(signal: TradingSignal):
 - **Dependency injection** - чистая архитектура
 - **Pydantic V2** - ультра-быстрая валидация
 
-### **AI/ML Framework: LangChain 0.1.0+**
+### **AI/ML Framework: LangChain 0.2.0+**
 ```python
 # Multi-agent AI orchestration
 from langchain.agents import create_openai_tools_agent
