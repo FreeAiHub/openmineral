@@ -636,55 +636,75 @@ class ModernStreamingPlatform:
 ## 🚦 Getting Started
 
 ### Prerequisites
-- **Python**: 3.11+ with UV package manager
-- **Node.js**: 20+ with pnpm package manager
-- **Docker**: 24+ with BuildKit enabled
-- **Kubernetes**: 1.28+ with Gateway API support
+- **Python**: 3.11+ 
+- **Node.js**: 20+ 
+- **Docker**: 24+ with BuildKit enabled (рекомендуется)
 
-### Quick Start
+### Quick Start - Business Confirmation Parser MVP
+
 ```bash
-# Clone repository
+# 1. Клонировать репозиторий
 git clone https://github.com/FreeAiHub/openmineral.git
 cd openmineral
 
-# Use Docker Compose (recommended)
+# 2. Запуск через Docker Compose (рекомендуется)
 docker compose up -d
 
-# Or run individually:
+# 3. Или запуск локально:
 # Backend
 cd backend
 pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+python main.py
 
-# Frontend
-cd ../frontend
-npm install
-npm run dev
-
-# Access:
-# - Frontend: http://localhost:3000
+# Доступ к API:
 # - Backend API: http://localhost:8000
 # - API Docs: http://localhost:8000/docs
+# - Business Confirmation Parser: http://localhost:8000/api/bc-parser/
 ```
 
-### Prerequisites
-- Docker & Docker Compose (recommended)
-- Or Node.js 18+, Python 3.11+
+### 📄 Business Confirmation Parser - Основные возможности
 
-### Advanced Setup
+Наш MVP включает парсер для извлечения структурированных данных из Business Confirmation документов:
+
+#### API Endpoints:
+
+1. **Парсинг текста** - `POST /api/bc-parser/parse-text`
+2. **Парсинг файла** - `POST /api/bc-parser/parse-file` 
+3. **Пример парсинга** - `GET /api/bc-parser/parse-example`
+4. **Информация о парсере** - `GET /api/bc-parser/parser-info`
+
+#### Пример использования:
+
 ```bash
-# Deploy to Kubernetes with Helm
-helm install openmineral ./k8s/helm-chart \
-  --set image.tag=v0.1.0 \
-  --set ingress.enabled=true \
-  --set monitoring.enabled=true
+# Тест парсера на примере документа
+curl http://localhost:8000/api/bc-parser/parse-example
 
-# Setup with Terraform and modern practices
-cd infrastructure
-terraform init
-terraform workspace new development
-terraform plan -var-file="environments/dev.tfvars"
-terraform apply
+# Парсинг текста
+curl -X POST "http://localhost:8000/api/bc-parser/parse-text" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Business Confirmation\nSeller: Open Mineral\nBuyer: Company A..."}'
+
+# Загрузка и парсинг файла
+curl -X POST "http://localhost:8000/api/bc-parser/parse-file" \
+  -F "file=@your_bc_document.txt"
+```
+
+#### Извлекаемые данные:
+
+- **Основная информация**: дата, продавец, покупатель, материал
+- **Коммерческие условия**: количество, условия поставки, период отгрузки, TC/RC ставки
+- **Качественные характеристики**: химический анализ (assay data)
+- **Условия платежа**: предоплата, промежуточный и финальный платежи
+- **Операционные условия**: WSMD, определение анализа
+
+### Тестирование парсера
+
+```bash
+# Запуск парсера напрямую
+cd backend
+python services/bc_parser.py
+
+# Результат: JSON с извлеченными данными из примера BC документа
 ```
 
 ## 📈 Competitive Advantages
