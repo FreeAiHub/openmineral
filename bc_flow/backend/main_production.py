@@ -373,21 +373,6 @@ def calculate_risk_score(deal_data: BCFlowSubmission) -> str:
     else:
         return "high"
 
-@app.get("/bc-flow/dropdown-data")
-async def get_dropdown_data():
-    """Serve professional trading reference data"""
-    logger.info("Serving trading reference data")
-    
-    return {
-        "status": "success",
-        "data": TRADING_REFERENCE_DATA,
-        "metadata": {
-            "data_source": "market_data_service",
-            "last_updated": datetime.utcnow().isoformat(),
-            "cache_ttl_seconds": 3600,
-            "version": "2025.09"
-        }
-    }
 
 @app.get("/bc-flow/task/{task_id}")
 async def get_task_status(task_id: str):
