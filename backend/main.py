@@ -17,7 +17,7 @@ import uvicorn
 
 # Import after sys.path fix
 from config.settings import settings
-from backend.routers import auth, deals, market, kyc, risk, workflow
+from backend.routers import auth, deals, market, kyc, risk, workflow, bc_parser
 
 app = FastAPI(
     title="OpenMineral Trading Platform API",
@@ -43,6 +43,7 @@ app.include_router(market.router, prefix="/api/market", tags=["Market Analysis"]
 app.include_router(kyc.router, prefix="/api/kyc", tags=["KYC & Compliance"])
 app.include_router(risk.router, prefix="/api/risk", tags=["Risk Assessment"])
 app.include_router(workflow.router, prefix="/api/workflow", tags=["Workflow Automation"])
+app.include_router(bc_parser.router, prefix="/api/bc-parser", tags=["Business Confirmation Parser"])
 
 @app.get("/")
 async def root():
