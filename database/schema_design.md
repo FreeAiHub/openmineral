@@ -157,6 +157,15 @@ CREATE TABLE workflow_executions (
 }
 ```
 
+## Migrations
+
+Database migrations are managed with Alembic. To initialize and generate migrations:
+```bash
+cd backend
+alembic revision --autogenerate -m "Initial schema"
+alembic upgrade head
+```
+
 ## Redis Usage
 
 ### Session Storage

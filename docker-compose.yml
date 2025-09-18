@@ -85,6 +85,45 @@ services:
     networks:
       - openmineral-network
 
+  # Celery Worker
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.celery
+    container_name: openmineral-celery-worker
+    environment:
+      - POSTGRESQL_URL=postgresql://openmineral:$$(cat /run/secrets/postgres_password)@postgres:5432/openmineral
+      - MONGODB_URL=mongodb://openmineral:$$(cat /run/secrets/mongo_password)@mongodb:27017/openmineral
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - openmineral-network
+
+  # Celery Beat (optional, for scheduled tasks)
+  celery_beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.celery
+    container_name: openmineral-celery-beat
+    command: celery -A main beat -l info --scheduler django_celery_beat.schedulers.DatabaseScheduler
+    environment:
+      - POSTGRESQL_URL=postgresql://openmineral:$$(cat /run/secrets/postgres_password)@postgres:5432/openmineral
+      - MONGODB_URL=mongodb://openmineral:$$(cat /run/secrets/mongo_password)@mongodb:27017/openmineral
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - openmineral-network
+
 networks:
   openmineral-network:
     driver: bridge

@@ -400,3 +400,7 @@ jaeger/
 docs/build/
 docs/_build/
 site/
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

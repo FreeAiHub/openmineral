@@ -17,3 +17,12 @@ This directory contains the Python backend services for the OpenMineral trading 
 - `utils/` - Utility functions and helpers
 - `config/` - Configuration files
 - `tests/` - Backend tests
+
+## Setup & Migrations
+
+To initialize and apply database migrations:
+```bash
+pip install alembic
+cd backend
+alembic upgrade head
+```

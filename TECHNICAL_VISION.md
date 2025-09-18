@@ -17,7 +17,7 @@ OpenMineral's technical vision is to create a cutting-edge, AI-powered trading p
 ```mermaid
 graph TB
     subgraph "Frontend Layer"
-        A[ReactJS Web Application] --> B[User Authentication]
+        A[Next.js Web Application] --> B[User Authentication]
         A --> C[Trading Dashboard]
         A --> D[Analytics Interface]
         A --> E[Workflow Management UI]
